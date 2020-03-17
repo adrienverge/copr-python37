@@ -7,7 +7,7 @@
 
 Name: python37
 Version: 3.7.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Interpreter of the Python programming language
 License: Python
 URL: https://www.python.org
@@ -87,6 +87,7 @@ rm %{buildroot}%{_mandir}/man1/python3.1*
 %{_exec_prefix}/%{_lib}/libpython3.7m.a
 %{_exec_prefix}/%{_lib}/pkgconfig/python*.pc
 %exclude %{_exec_prefix}/lib/python3.7/site-packages/pip
+%exclude %{_exec_prefix}/lib/debug/usr/bin/python3.7m-*.debug.*
 %exclude %{_exec_prefix}/%{_lib}/python3.7/tkinter
 %exclude %{_exec_prefix}/%{_lib}/python3.7/idlelib
 
@@ -107,6 +108,9 @@ rm %{buildroot}%{_mandir}/man1/python3.1*
 %{_exec_prefix}/%{_lib}/python3.7/idlelib
 
 %changelog
+* Tue Mar 17 2020 Adrien Vergé <adrienverge@gmail.com> 3.7.7-3
+- Adapt to build for EPEL8
+
 * Tue Mar 17 2020 Adrien Vergé <adrienverge@gmail.com> 3.7.7-2
 - Split into multiple packages for -libs, -devel, -pip
 
