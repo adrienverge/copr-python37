@@ -7,8 +7,8 @@
 
 Name: python37
 Version: 3.7.7
-Release: 1%{?dist}
-Summary: Unofficial Python 3.7 package for CentOS 7
+Release: 2%{?dist}
+Summary: Interpreter of the Python programming language
 License: Python
 URL: https://www.python.org
 Source: https://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
@@ -24,8 +24,39 @@ BuildRequires: readline-devel
 
 Patch102: 00102-lib64.patch
 
+Requires: %{name}-libs%{?_isa} = %{version}-%{release}
+
 %description
-Unofficial Python 3.7 package for CentOS 7
+Interpreter of the Python programming language
+
+%package libs
+Summary: Python runtime libraries
+%description libs
+Python runtime libraries
+
+%package devel
+Summary: Libraries and header files needed for Python development
+Requires: %{name} = %{version}-%{release}
+%description devel
+Libraries and header files needed for Python development
+
+%package pip
+Summary: A tool for installing and managing Python3 packages
+Requires: %{name} = %{version}-%{release}
+%description pip
+A tool for installing and managing Python3 packages
+
+%package tkinter
+Summary: A GUI toolkit for Python
+Requires: %{name} = %{version}-%{release}
+%description tkinter
+A GUI toolkit for Python
+
+%package idle
+Summary: A basic graphical development environment for Python
+Requires: %{name} = %{version}-%{release}
+%description idle
+A basic graphical development environment for Python
 
 %prep
 %setup -q -c -n %{name}-%{version}
@@ -45,20 +76,39 @@ cd Python-%{version}
 rm %{buildroot}%{_mandir}/man1/python3.1*
 
 %files
-%{_bindir}/2to3*
-%{_bindir}/easy_install-3*
-%{_bindir}/idle3*
-%{_bindir}/pip3*
-%{_bindir}/pydoc3*
 %{_bindir}/python3*
+%{_bindir}/pydoc3*
 %{_bindir}/pyvenv*
+%{_mandir}/man1/python3.7.*
+
+%files libs
 %{_exec_prefix}/lib/python3.7
 %{_exec_prefix}/%{_lib}/python3.7
 %{_exec_prefix}/%{_lib}/libpython3.7m.a
 %{_exec_prefix}/%{_lib}/pkgconfig/python*.pc
+%exclude %{_exec_prefix}/lib/python3.7/site-packages/pip
+%exclude %{_exec_prefix}/%{_lib}/python3.7/tkinter
+%exclude %{_exec_prefix}/%{_lib}/python3.7/idlelib
+
+%files devel
+%{_bindir}/2to3*
 %{_includedir}/python3.7m
-%{_mandir}/man1/python3.7.*
+
+%files pip
+%{_bindir}/pip3*
+%{_bindir}/easy_install-3*
+%{_exec_prefix}/lib/python3.7/site-packages/pip
+
+%files tkinter
+%{_exec_prefix}/%{_lib}/python3.7/tkinter
+
+%files idle
+%{_bindir}/idle3*
+%{_exec_prefix}/%{_lib}/python3.7/idlelib
 
 %changelog
+* Tue Mar 17 2020 Adrien Vergé <adrienverge@gmail.com> 3.7.7-2
+- Split into multiple packages for -libs, -devel, -pip
+
 * Tue Mar 17 2020 Adrien Vergé <adrienverge@gmail.com> 3.7.7-1
 - Initial RPM release

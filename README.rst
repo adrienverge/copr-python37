@@ -14,4 +14,4 @@ Install
 .. code:: shell
 
  sudo yum copr enable adrienverge/python37
- sudo yum install python37
+ sudo yum install python37 python37-devel python37-pip
